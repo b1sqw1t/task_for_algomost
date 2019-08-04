@@ -1,10 +1,14 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% block body %}
+    <div class="container">
+    <div class="row" style="padding-top: 50px">
     <a href="{% url 'upload_image' %}">Загрузить изображение</a>
-{% for field in list %}
-    <a href="{% url 'view_images' id=field.id %}">{{ forloop.counter }}</a>
-{% endfor %}
-
-
+<ul>
+    {% for field in list %}
+        <li><a href="{% url 'view_images' id=field.id %}">Изображение {{ forloop.counter }}</a></li>
+    {% endfor %}
+</ul>
+    </div>
+</div>
 {% endblock %}
