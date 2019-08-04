@@ -1,0 +1,10 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block body %}
+    <a href="{% url 'upload_image' %}">Загрузить изображение</a>
+{% for field in list %}
+    <a href="{% url 'view_images' id=field.id %}">{{ forloop.counter }}</a>
+{% endfor %}
+
+
+{% endblock %}

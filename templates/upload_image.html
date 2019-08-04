@@ -1,0 +1,57 @@
+{% extends 'base_template.html' %}
+
+{% block body %}
+    <div class="container">
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row" style="padding-top: 50px;">
+                <div class="col-md-6">
+                    {% for message in messages %}
+                            <strong style="color:red;">{{ message }}</strong>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row" style="padding-top: 50px;">
+                <div class="col-md-3">
+                    {% csrf_token %}
+                    <p><strong>{{ form.image.label }}</strong></p>
+                    <p>{{ form.image }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>{{ form.url.label }}</strong></p>
+                    <p>{{ form.url }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-block btn-info" type="submit" id="id_button" disabled value="Send">Сохранить</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+     $('#id_image').change(function() {
+        check_val()
+    });
+     $('#id_url').bind("change paste keyup", function() {
+        check_val()
+     });
+
+     function check_val() {
+         if ($('#id_image').val() === '' && $('#id_url').val() !== '') {
+             $('#id_button').prop('disabled', false)
+             $('#id_image').prop('disabled', true)
+         }
+         if ($('#id_image').val() !== '' && $('#id_url').val() === '') {
+             $('#id_button').prop('disabled', false)
+             $('#id_url').prop('disabled', true)
+         }
+         if ($('#id_image').val() === '' && $('#id_url').val() === '') {
+             $('#id_button').prop('disabled', true)
+             $('#id_url').prop('disabled', false)
+             $('#id_image').prop('disabled', false)
+         }
+     }
+    </script>
+{% endblock %}
