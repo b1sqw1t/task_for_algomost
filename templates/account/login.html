@@ -1,0 +1,37 @@
+{% extends 'base/base_template.html' %}
+{% load static %}
+{% block body %}
+    <div class="container">
+    {% if not user.is_authenticated %}
+        <div class="row" style="padding-top: 40px;">
+            <div class="col-md-12">
+                <div class="col-md-3">Тестовый Логин: User</div>
+                <div class="col-md-3">Тестовый Пароль: User</div>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post">
+                {% csrf_token %}
+                {% if login_error %}
+                    <p style="color:red">{{ login_error }}</p>
+                {% endif %}
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <p>{{ login_form.username.label }} {{ login_form.username }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ login_form.password.label }} {{ login_form.password }}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        <div class="row" style="padding-top: 40px;">
+            <a class="btn btn-primary" href="{% url "account:logout_then_login" %}">Выйти</a>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

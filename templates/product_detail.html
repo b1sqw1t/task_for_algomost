@@ -1,0 +1,6 @@
+<p>{{ product.price }}</p>
+<form action="{% url "applications:cart_add" product.id %}" method="post">
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Добавить в корзину">
+</form>

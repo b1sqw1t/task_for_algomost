@@ -1,0 +1,43 @@
+{% extends 'base/base_template.html' %}
+{% load static %}
+{% block body %}
+    <div class="container">
+    <div class="row">
+    <h1>Корзина</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Наименование продукта</th>
+            <th>Кол-во</th>
+            <th>Удалить</th>
+            <th>Цена за ед. продукта</th>
+            <th>В сумме с количеством</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td><a href="{% url "applications:cart_remove" product.id%}">Удалить из корзины</a></td>
+                    <td class="num">{{ item.price }} рублей</td>
+                    <td class="num">{{ item.total_price }} рублей</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="table-hover">
+            <td  colspan="4"></td>
+            <td><strong>В итоге</strong></td>
+            <td class="num"><strong>{{ cart.get_total_price }} рублей</strong> </td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url 'applications:index_page' %}" class="button light">Продолжить выбор товара</a> |
+        <a href="{% url 'applications:cart_all_remove' %}" class="button">Очистить корзину</a> |
+        <a href="{% url 'applications:cart_save' %}" class="button">Сохранить заказ</a>
+    </p>
+    </div>
+    </div>
+{% endblock %}

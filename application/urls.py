@@ -1,10 +1,14 @@
 from django.conf.urls import url
-from django.urls import path
 
-from application.views import IndexPage, UploadImageView, ViewImage
+from application import views
+
+app_name='applications'
 
 urlpatterns = [
-    url(r'^$', IndexPage.as_view(), name='index_page'),
-    url(r'^upload/$', UploadImageView.as_view(), name='upload_image'),
-    url(r'^view_image/(?P<id>\d+)/$', ViewImage.as_view(), name='view_images')
+    url(r'^$', views.IndexPage.as_view(), name='index_page'),
+    url(r'^cart_detail/$', views.cart_detail, name='cart_detail'),
+    url(r'^add/(?P<product_id>\d+)/$', views.cart_add, name='cart_add'),
+    url(r'^remove/(?P<product_id>\d+)/$', views.cart_remove, name='cart_remove'),
+    url(r'^all_remove/$', views.cart_all_remove, name='cart_all_remove'),
+    url(r'^cart_save/$', views.cart_save, name='cart_save')
 ]

@@ -1,14 +1,44 @@
-{% extends 'base_template.html' %}
+{% extends 'base/base_template.html' %}
 {% load static %}
 {% block body %}
     <div class="container">
-    <div class="row" style="padding-top: 50px">
-    <a href="{% url 'upload_image' %}">Загрузить изображение</a>
-<ul>
-    {% for field in list %}
-        <li><a href="{% url 'view_images' id=field.id %}">Изображение {{ forloop.counter }}</a></li>
-    {% endfor %}
-</ul>
+        <div class="row">
+            <div class="col-md-12">
+                {% if not user.is_authenticated %}
+                    Для входа нажмите кнопку <a href="{% url 'account:login' %}">Войти</a>
+                {% else %}
+                    Вы авторизованы как {{ user.username }} <a class="btn btn-primary" href="{% url "account:logout_then_login" %}">Выйти</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% if products %}
+                    <table class="table table-hover">
+                    <thead>
+                        <td><strong>Наименование продукта</strong></td>
+                        <td><strong>Код продукта</strong></td>
+                        <td><strong>Цена продукта</strong></td>
+                        <td><strong>Добавить в корзину</strong></td>
+
+                    </thead>
+                        {% for product in products %}
+                                <tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.code }}</td>
+                                    <td>{{ product.price }} рублей</td>
+                                    <td>
+                                        <form method="post" action="{% url 'applications:cart_add' product.id %}">{% csrf_token %}
+                                            <input class="form-control" style="max-width: 80px;" type="number" name="quantity" id="id_quantity" min="1"  max="21" value="1" required>
+                                            <button type="submit" class="btn-xs btn-primary">Добавить</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}
